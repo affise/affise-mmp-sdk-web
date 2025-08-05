@@ -39,10 +39,6 @@
         }
 
         sendEvents(events) {
-            if (!this.initialized) {
-                console.error('AffiseMMP not initialized.');
-                return;
-            }
             this.sendPostback(events)
         }
 
@@ -51,9 +47,9 @@
                 console.error('AffiseMMP not initialized.');
                 return;
             }
-
             if (!Array.isArray(events) || events.length === 0) {
                 console.error('No events to send.');
+                return;
             }
 
             const payload = {
