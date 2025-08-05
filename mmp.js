@@ -52,6 +52,10 @@
                 return;
             }
 
+            if (!Array.isArray(events) || events.length === 0) {
+                console.error('No events to send.');
+            }
+
             const payload = {
                 uuid: generateUUID(),
                 created_time: getUTCTimestamp(),
@@ -61,12 +65,9 @@
                 affise_device_id: this.deviceData.affise_device_id,
                 random_user_id: this.deviceData.random_user_id,
                 first_open_time: this.deviceData.first_open_time,
-                platform: 'web'
+                platform: 'web',
+                events
             };
-
-            if (Array.isArray(events) && events.length !== 0) {
-                payload.events = events
-            }
 
             fetch('https://tracking.affattr.com/postback', {
                 method: 'POST',
