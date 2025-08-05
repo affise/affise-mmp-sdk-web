@@ -27,7 +27,8 @@ AffiseMMP.sendEvents([
         "affise_parameters": {
             "affise_p_order_id": "23123",
             "affise_p_price": "2.19",
-            "affise_p_quantity": 1
+            "affise_p_quantity": 1,
+            "affise_p_currency": "USD"
         }
     }
 ])
