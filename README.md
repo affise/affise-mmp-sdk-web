@@ -210,3 +210,307 @@ AffiseMMP.sendEvents([
 -    `affise_p_virtual_currency_name`           `String`
 -    `affise_p_vertical`                        `String`
 -    `affise_p_voucher_code`                    `String`
+
+## Events tracking
+
+> Demo app [DefaultEventsFactory.kt](app/src/main/java/com/affise/app/ui/screen/buttons/factories/DefaultEventsFactory.kt)
+
+For example, we want to track what items usually user adds to shopping cart. To send event first create it with
+following code
+
+```kotlin
+class Presenter {
+  fun onUserAddsItemsToCart(userData: String) {
+    AddToCartEvent(userData)
+        .send() // Send event
+  }
+}
+```
+
+For java use:
+
+```java
+class Presenter {
+  void onUserAddsItemsToCart(String userData) {
+    new AddToCartEvent(userData)
+            .send(); // Send event
+  }
+}
+```
+
+With above example you can implement other events:
+
+- `AchieveLevel`
+- `AddPaymentInfo`
+- `AddToCart`
+- `AddToWishlist`
+- `AdRevenue`
+- `ClickAdv`
+- `CompleteRegistration`
+- `CompleteStream`
+- `CompleteTrial`
+- `CompleteTutorial`
+- `Contact`
+- `ContentItemsView`
+- `CustomizeProduct`
+- `DeepLinked`
+- `Donate`
+- `FindLocation`
+- `InitiateCheckout`
+- `InitiatePurchase`
+- `InitiateStream`
+- `Invite`
+- `LastAttributedTouch`
+- `Lead`
+- `ListView`
+- `Login`
+- `OpenedFromPushNotification`
+- `Order`
+- `OrderItemAdded`
+- `OrderItemRemove`
+- `OrderCancel`
+- `OrderReturnRequest`
+- `OrderReturnRequestCancel`
+- `Purchase`
+- `Rate`
+- `ReEngage`
+- `Reserve`
+- `Sales`
+- `Schedule`
+- `Search`
+- `Share`
+- `SpendCredits`
+- `StartRegistration`
+- `StartTrial`
+- `StartTutorial`
+- `SubmitApplication`
+- `Subscribe`
+- `TravelBooking`
+- `UnlockAchievement`
+- `Unsubscribe`
+- `Update`
+- `ViewAdv`
+- `ViewCart`
+- `ViewContent`
+- `ViewItem`
+- `ViewItems`
+- `InitialSubscription`
+- `InitialTrial`
+- `InitialOffer`
+- `ConvertedTrial`
+- `ConvertedOffer`
+- `TrialInRetry`
+- `OfferInRetry`
+- `SubscriptionInRetry`
+- `RenewedSubscription`
+- `FailedSubscriptionFromRetry`
+- `FailedOfferFromRetry`
+- `FailedTrialFromRetry`
+- `FailedSubscription`
+- `FailedOfferise`
+- `FailedTrial`
+- `ReactivatedSubscription`
+- `RenewedSubscriptionFromRetry`
+- `ConvertedOfferFromRetry`
+- `ConvertedTrialFromRetry`
+- `Unsubscription`
+
+## Custom events tracking
+
+Use any of custom events if default doesn't fit your scenario:
+
+- `CustomId01`
+- `CustomId02`
+- `CustomId03`
+- `CustomId04`
+- `CustomId05`
+- `CustomId06`
+- `CustomId07`
+- `CustomId08`
+- `CustomId09`
+- `CustomId10`
+
+If above event functionality still limits your usecase, you can use `UserCustomEvent`
+
+```kotlin
+UserCustomEvent("MyCustomNameEvent")
+  .addPredefinedParameter(PredefinedString.DESCRIPTION, "best before 2029")
+  .addPredefinedParameter(PredefinedObject.CONTENT, JSONObject().apply {
+    put("collection", "Greatest Hits")
+  })
+  .send() // Send event
+```
+
+## Predefined event parameters
+
+To enrich your event with another dimension, you can use predefined parameters for most common cases.
+Add it to any event:
+
+```kotlin
+class Presenter {
+  fun onUserAddsItemsToCart(userData: String) {
+    AddToCartEvent(userData)
+        .addPredefinedParameter(PredefinedString.DESCRIPTION, "best before 2029")
+        .addPredefinedParameter(PredefinedObject.CONTENT, JSONObject().apply {
+          put("collection", "Greatest Hits")
+        })
+        .addPredefinedParameter(PredefinedListObject.CONTENT_LIST, listOf(
+          JSONObject().apply {
+            put("content", "songs, videos")
+          }
+        ))
+        .send() // Send event
+  }
+}
+```
+
+For java use:
+
+```java
+class Presenter {
+  void onUserAddsItemsToCart(String userData) {
+    JSONObject json = new JSONObject()
+            .put("collection", "Greatest Hits");
+    
+    JSONObject jsonContent = new JSONObject()
+            .put("content", "songs, videos");
+    
+    List<JSONObject> jsonList = Collections.singletonList(jsonContent);
+    
+    new AddToCartEvent(userData, System.currentTimeMillis())
+            .addPredefinedParameter(PredefinedString.DESCRIPTION, "best before 2029")
+            .addPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+            .addPredefinedParameter(PredefinedObject.CONTENT, json)
+            .addPredefinedParameter(PredefinedListObject.CONTENT_LIST, jsonList)
+            .send(); // Send event
+  }
+}
+```
+
+In examples above `PredefinedString.DESCRIPTION` and `PredefinedFloat.PRICE` is used, but many others is available:
+
+| PredefinedParameter                           | Type                   |
+|-----------------------------------------------|------------------------|
+| [PredefinedString](#predefinedstring)         | String                 |
+| [PredefinedLong](#predefinedlong)             | Long                   |
+| [PredefinedFloat](#predefinedfloat)           | Float                  |
+| [PredefinedObject](#predefinedobject)         | JSONObject             |
+| [PredefinedListObject](#predefinedlistobject) | List&lt;JSONObject&gt; |
+| [PredefinedListString](#predefinedliststring) | List&lt;String&gt;     |
+
+### PredefinedString
+
+- `ACHIEVEMENT_ID`
+- `ADREV_AD_TYPE`
+- `BRAND`
+- `BRICK`
+- `CAMPAIGN_ID`
+- `CATALOGUE_ID`
+- `CHANNEL_TYPE`
+- `CITY`
+- `CLASS`
+- `CLICK_ID`
+- `CONTENT_ID`
+- `CONTENT_NAME`
+- `CONTENT_TYPE`
+- `CONVERSION_ID`
+- `COUNTRY`
+- `COUPON_CODE`
+- `CURRENCY`
+- `CUSTOMER_SEGMENT`
+- `CUSTOMER_TYPE`
+- `CUSTOMER_USER_ID`
+- `DEEP_LINK`
+- `DESCRIPTION`
+- `DESTINATION_A`
+- `DESTINATION_B`
+- `DESTINATION_LIST`
+- `EVENT_NAME`
+- `NEW_VERSION`
+- `NETWORK`
+- `OLD_VERSION`
+- `ORDER_ID`
+- `PARAM_01`
+- `PARAM_02`
+- `PARAM_03`
+- `PARAM_04`
+- `PARAM_05`
+- `PARAM_06`
+- `PARAM_07`
+- `PARAM_08`
+- `PARAM_09`
+- `PARAM_10`
+- `PAYMENT_INFO_AVAILABLE`
+- `PID`
+- `PLACEMENT`
+- `PREFERRED_NEIGHBORHOODS`
+- `PRODUCT_ID`
+- `PRODUCT_NAME`
+- `PURCHASE_CURRENCY`
+- `RECEIPT_ID`
+- `REGION`
+- `REGISTRATION_METHOD`
+- `REVIEW_TEXT`
+- `SEARCH_STRING`
+- `SEGMENT`
+- `SOURCE`
+- `STATUS`
+- `SUBSCRIPTION_ID`
+- `SUCCESS`
+- `SUGGESTED_DESTINATIONS`
+- `SUGGESTED_HOTELS`
+- `TUTORIAL_ID`
+- `UNIT`
+- `UTM_CAMPAIGN`
+- `UTM_MEDIUM`
+- `UTM_SOURCE`
+- `VALIDATED`
+- `VERTICAL`
+- `VIRTUAL_CURRENCY_NAME`
+- `VOUCHER_CODE`
+
+### PredefinedLong
+
+- `AMOUNT`
+- `DATE_A`
+- `DATE_B`
+- `DEPARTING_ARRIVAL_DATE`
+- `DEPARTING_DEPARTURE_DATE`
+- `HOTEL_SCORE`
+- `LEVEL`
+- `MAX_RATING_VALUE`
+- `NUM_ADULTS`
+- `NUM_CHILDREN`
+- `NUM_INFANTS`
+- `PREFERRED_NUM_STOPS`
+- `PREFERRED_STAR_RATINGS`
+- `QUANTITY`
+- `RATING_VALUE`
+- `RETURNING_ARRIVAL_DATE`
+- `RETURNING_DEPARTURE_DATE`
+- `SCORE`
+- `TRAVEL_START`
+- `TRAVEL_END`
+- `USER_SCORE`
+- `EVENT_START`
+- `EVENT_END`
+
+### PredefinedFloat
+
+- `PREFERRED_PRICE_RANGE`
+- `PRICE`
+- `REVENUE`
+- `LAT`
+- `LONG`
+
+### PredefinedObject
+
+- `CONTENT`
+
+### PredefinedListObject
+
+- `CONTENT_LIST`
+
+### PredefinedListString
+
+- `CONTENT_IDS`
